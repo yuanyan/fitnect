@@ -308,9 +308,11 @@ headtrackr.Tracker = function(params) {
 			run = true;
 			track();
 		} else {
-			window.setTimeout(starter, 100);
+            requestAnimFrame(starter);
 		}
 	}
+
+
 	
 	this.start = function() {
 		// check if initialized

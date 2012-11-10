@@ -30,19 +30,27 @@ define(function () {
 
         // Draw the layers in order
         contextScreenshot.drawImage(
-            canvasSource, 414, 0, screenshotWidth, screenshotHeight);
+            canvasSource, 0, 0, screenshotWidth, screenshotHeight);
 
         contextScreenshot.drawImage(
-            canvasOverlay, 414, 0, screenshotWidth, screenshotHeight);
+            canvasOverlay, 0, 0, screenshotWidth, screenshotHeight);
 
 
         // Save to a data URL as a jpeg quality 9
-        var imgUrl = bufferScreenshot.toDataURL("image/jpeg", .9);
+        var imgUrl = bufferScreenshot.toDataURL("image/jpeg");
 
         // StartAnimating(); // Restart the animation loop
         return imgUrl;
     }
 
+    function shoot(){
+        var imgUrl = takeScreenshot();
 
-    return {shoot: takeScreenshot};
+        var el = "<li><div class='box'> <img height='226px' width='154px' src='"+imgUrl+"'> <div class='fn'> <span class='icon-like'>0</span></div></div></li>"
+        $("ul.fav li:first").after(el);
+
+
+    }
+
+    return {shoot: shoot};
 });

@@ -1,4 +1,9 @@
-$(document).ready(function() {
+define(function(require) {
+    var operation = require('./operation');
+    var cloth = require('./operation/cloth');
+    var gender = require('./operation/gender');
+    var shoot = require('./operation/shoot');
+    var sidebar = require('./sidebar');
 
     // put all your jQuery goodness in here.
     var videoInput = document.getElementById('vid');
@@ -10,11 +15,11 @@ $(document).ready(function() {
 
     canvasOverlay.style.position = "absolute";
     canvasOverlay.style.top = '0px';
-    canvasOverlay.style.zIndex = '100001';
+    canvasOverlay.style.zIndex = '1';
     canvasOverlay.style.display = 'block';
     debugOverlay.style.position = "absolute";
     debugOverlay.style.top = '0px';
-    debugOverlay.style.zIndex = '100002';
+    debugOverlay.style.zIndex = '2';
     debugOverlay.style.display = 'none';
 
     // add some custom messaging
@@ -33,23 +38,23 @@ $(document).ready(function() {
         "no camera" : "No camera found. Using fallback video for bodydetection."
     };
 
-    document.addEventListener("headtrackrStatus", function(event) {
-        if (event.status in supportMessages) {
-            var messagep = document.getElementById('gUMMessage');
-            messagep.innerHTML = supportMessages[event.status];
-
-        } else if (event.status in statusMessages) {
-            var messagep = document.getElementById('headtrackerMessage');
-            messagep.innerHTML = statusMessages[event.status];
-        }
-
-        console.log("headtrackrStatus:", event.status);
-    }, true);
+//    document.addEventListener("headtrackrStatus", function(event) {
+//        if (event.status in supportMessages) {
+//            var messagep = document.getElementById('gUMMessage');
+//            messagep.innerHTML = supportMessages[event.status];
+//
+//        } else if (event.status in statusMessages) {
+//            var messagep = document.getElementById('headtrackerMessage');
+//            messagep.innerHTML = statusMessages[event.status];
+//        }
+//
+//        console.log("headtrackrStatus:", event.status);
+//    }, true);
 
     // the face tracking setup
 
     var htracker = new headtrackr.Tracker({
-        //altVideo : {mp4 : "./media/demo.mp4"},
+        altVideo : {mp4 : "./media/demo.mp4"},
         calcAngles : true,
         ui : false,
         headPosition : true,
@@ -60,22 +65,23 @@ $(document).ready(function() {
 
     // for each facetracking event received draw rectangle around tracked face on canvas
 
-    var cloth = new Image();
+    var clothImg = new Image();
     var zoomedClothSize = {
         width: 0,
         height: 0
     };
 
-    cloth.src="./media/c1.png";
-    cloth.onload = function(){
-        zoomedClothSize = getZoomedSize(cloth, 1.2);
+    clothImg.src="./media/c1.png";
+    clothImg.onload = function(){
+        zoomedClothSize = getZoomedSize(clothImg, 0.9);
+        cloth.setClothDisplay(1);
     };
 
     var xOffsetCloth = -212,
         yOffsetCloth = 40;
 
     function getZoomedSize(img, multiple){
-        console.dir(img);
+        // console.dir(img);
         //debugger;
         return {
             width: img.width * multiple,
@@ -84,44 +90,53 @@ $(document).ready(function() {
     }
 
 
-    var opAreaMap = {
-        "shoot" : [448, 32, 100, 100],  //left, top, width, height
-        "gender" : [901, 32, 100, 100],
-        "pre" : [442, 434, 80, 80],
-        "next" : [920, 434, 80, 80],
-        "c1" : [950, 152, 63, 63],
-        "c2" : [950, 220, 63, 63],
-        "c3" : [950, 286, 63, 63],
-        "c4" : [950, 351, 63, 63] // 286 + 65
-    };
+//    var opAreaMap = {
+//        "shoot" : [448, 32, 100, 100],  //left, top, width, height
+//        "gender" : [901, 32, 100, 100],
+//        "pre" : [442, 434, 80, 80],
+//        "next" : [920, 434, 80, 80],
+//        "c1" : [950, 152, 63, 63],
+//        "c2" : [950, 220, 63, 63],
+//        "c3" : [950, 286, 63, 63],
+//        "c4" : [950, 351, 63, 63] // 286 + 65
+//    };
+//
+//    var opArray = Object.keys(opAreaMap);
 
-    var opArray = Object.keys(opAreaMap);
 
+    var isSidebarShow = false;
     document.addEventListener("facetrackingEvent", function( event ) {
+
+        if(!isSidebarShow){
+            sidebar.show();
+            isSidebarShow = true;
+        }
 
         // clear canvas
         overlayContext.clearRect(0,0, videoInput.width, videoInput.height);
         // once we have stable tracking, draw rectangle
         if (event.detection == "CS") {
 
-            overlayContext.translate(event.x, event.y);
-            overlayContext.rotate(event.angle-(Math.PI/2));
-            overlayContext.strokeStyle = "#00CC00";
-            overlayContext.strokeRect( (-(event.width/2)) >> 0 ,  (-(event.height/2)) >> 0, event.width, event.height);
-            overlayContext.rotate((Math.PI/2)-event.angle);
-            overlayContext.translate( -event.x, -event.y );
+//            overlayContext.translate(event.x, event.y);
+//            overlayContext.rotate(event.angle-(Math.PI/2));
+//            overlayContext.strokeStyle = "#00CC00";
+//            overlayContext.strokeRect( (-(event.width/2)) >> 0 ,  (-(event.height/2)) >> 0, event.width, event.height);
+//            overlayContext.rotate((Math.PI/2)-event.angle);
+//            overlayContext.translate( -event.x, -event.y );
 
-
-            opArray.forEach(function(op){
-
-
-                var opArea = opAreaMap[op];
-
-                overlayContext.strokeRect(opArea[0] , opArea[1], opArea[2], opArea[3] );
-            });
+//            opArray.forEach(function(op){
+//
+//                var opArea = opAreaMap[op];
+//
+//                overlayContext.strokeRect(opArea[0] , opArea[1], opArea[2], opArea[3] );
+//            });
 
             // draw cloth on overlay
-            overlayContext.drawImage(cloth, event.x + xOffsetCloth, event.y + yOffsetCloth , zoomedClothSize['width'], zoomedClothSize['height']);
+            overlayContext.drawImage(clothImg, event.x + xOffsetCloth, event.y + yOffsetCloth , zoomedClothSize['width'], zoomedClothSize['height']);
+
+            operation.monitor();
+
+
         }
 
 

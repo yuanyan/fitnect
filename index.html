@@ -14,7 +14,7 @@
 
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <link rel="stylesheet" href="css/common.css">
         <script src="js/vendor/sea.js"></script>
     </head>
     <body>
@@ -22,27 +22,209 @@
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 
+
+
+        <div class="wrap">
+            <div class="canvas">
+
+                <canvas id="compare" width="1440" height="900" ></canvas>
+                <video id="vid" autoplay loop width="1440" height="900" style="display:none"></video>
+                <canvas id="blended" width="1440" height="900" style="display:none"></canvas>
+                <canvas id="overlay" width="1440" height="900"></canvas>
+                <canvas id="debug" width="1440" height="900"></canvas>
+
+            </div>
+            <div class="option">
+                <div class="camera"></div>
+                <div class="gender"></div>
+                <ul class="list">
+                    <li>1</li>
+                    <li class="active">2</li>
+                    <li>3</li>
+                    <li>4</li>
+                </ul>
+                <div class="btn-pre"></div>
+                <div class="btn-next"></div>
+                <div id="clothTitle" class="title" style="display:none">
+                    <span class="circle">1</span>
+                    创意马拉松T桖
+                </div>
+            </div>
+            <div class="tools">
+                <h3 class="title">我的试衣<span>已照1张</span></h3>
+                <ul class="fav">
+                    <li>
+                        <div class="box plus"></div>
+                    </li>
+
+                    <li>
+                        <div class="box">
+                            <img src="img/collect_1.jpg" />
+                            <div class="fn">
+                                <span class="icon-like">12</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="box">
+                            <img src="img/collect_1.jpg" />
+                            <div class="fn">
+                                <span class="icon-like">12</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="box">
+                            <img src="img/collect_1.jpg" />
+                            <div class="fn">
+                                <span class="icon-like">12</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="box">
+                            <img src="img/collect_1.jpg" />
+                            <div class="fn">
+                                <span class="icon-like">12</span>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+                <a class="btn-share" href="#">分享给好友</a>
+            </div>
+            <div class="cabinet">
+                <h3 class="title">魔镜推荐<span>共123件</span></h3>
+                <div class="tab">
+                    <a class="active" href="#">男装</a>
+                    <a href="#">女装</a>
+                </div>
+                <div class="silde">
+                    <ul class="list">
+                        <li class="active">
+                            <div class="number">1</div>
+                            <div class="content">
+                                <img src="img/pic_1.png" />
+                                <p class="name">马拉松T桖</p>
+                                <p>价格：140元</p>
+                                <p><a href="#">进入店铺>></a></p>
+                                <div><a class="btn-red" href="#">放入购物车</a></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="number">2</div>
+                            <div class="content">
+                                <img src="img/pic_1.png" />
+                                <p class="name">马拉松T桖</p>
+                                <p>价格：140元</p>
+                                <p><a href="#">进入店铺>></a></p>
+                                <div><a class="btn-red" href="#">放入购物车</a></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="number">3</div>
+                            <div class="content">
+                                <img src="img/pic_1.png" />
+                                <p class="name">马拉松T桖</p>
+                                <p>价格：140元</p>
+                                <p><a href="#">进入店铺>></a></p>
+                                <div><a class="btn-red" href="#">放入购物车</a></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="number">4</div>
+                            <div class="content">
+                                <img src="img/pic_1.png" />
+                                <p class="name">马拉松T桖</p>
+                                <p>价格：140元</p>
+                                <p><a href="#">进入店铺>></a></p>
+                                <div><a class="btn-red" href="#">放入购物车</a></div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="list">
+                        <li class="active">
+                            <div class="number">1</div>
+                            <div class="content">
+                                <img src="img/pic_1.png" />
+                                <p class="name">马拉松T桖</p>
+                                <p>价格：140元</p>
+                                <p><a href="#">进入店铺>></a></p>
+                                <div><a class="btn-red" href="#">放入购物车</a></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="number">2</div>
+                            <div class="content">
+                                <img src="img/pic_1.png" />
+                                <p class="name">马拉松T桖</p>
+                                <p>价格：140元</p>
+                                <p><a href="#">进入店铺>></a></p>
+                                <div><a class="btn-red" href="#">放入购物车</a></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="number">3</div>
+                            <div class="content">
+                                <img src="img/pic_1.png" />
+                                <p class="name">马拉松T桖</p>
+                                <p>价格：140元</p>
+                                <p><a href="#">进入店铺>></a></p>
+                                <div><a class="btn-red" href="#">放入购物车</a></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="number">4</div>
+                            <div class="content">
+                                <img src="img/pic_1.png" />
+                                <p class="name">马拉松T桖</p>
+                                <p>价格：140元</p>
+                                <p><a href="#">进入店铺>></a></p>
+                                <div><a class="btn-red" href="#">放入购物车</a></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nav">
+                    <ul class="cicle">
+                        <li class="active"></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                    <div class="btn-search"></div>
+                </div>
+            </div>
+        </div>
+
     <div>
 
-        <canvas id="compare" width="1440" height="900" ></canvas>
-        <video id="vid" autoplay loop width="1440" height="900" style="display:none"></video>
-        <canvas id="blended" width="1440" height="900" style="display:none"></canvas>
-        <canvas id="overlay" width="1440" height="900"></canvas>
-        <canvas id="debug" width="1440" height="900"></canvas>
 
-        <p id='gUMMessage'></p>
-        <p>Status : <span id='headtrackerMessage'></span></p>
-        <p>
-            <input type="button" id="retry" value="Retry"></input>
-            <input type="checkbox" id="showProbabilityCanvas" ></input>Show probability-map
-        </p>
+
+        <!--<p id='gUMMessage'></p>-->
+        <!--<p>Status : <span id='headtrackerMessage'></span></p>-->
+        <!--<p>-->
+            <!--<input type="button" id="retry" value="Retry"></input>-->
+            <!--<input type="checkbox" id="showProbabilityCanvas" ></input>Show probability-map-->
+        <!--</p>-->
 
     </div>
 
+        <script>
+            window.requestAnimFrame = (function(){
+                return  window.requestAnimationFrame       ||
+                        window.webkitRequestAnimationFrame ||
+                        window.mozRequestAnimationFrame    ||
+                        window.oRequestAnimationFrame      ||
+                        window.msRequestAnimationFrame     ||
+                        function( callback ){
+                            window.setTimeout(callback, 1000 / 60);
+                        };
+            })();
+
+        </script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.2.min.js"><\/script>')</script>
-        <script src="js/plugins.js"></script>
-
         <script src="js/headtrackr/headtrackr.js"></script>
         <script src="js/headtrackr/ccv.js"></script>
         <script src="js/headtrackr/cascade.js"></script>
@@ -53,17 +235,36 @@
         <script src="js/headtrackr/ui.js"></script>
         <script src="js/headtrackr/headposition.js"></script>
         <script src="js/headtrackr/controllers.js"></script>
-
-        <script src="js/main.js"></script>
-        <script src="js/operation.js"></script>
-
-
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
+            // use absolute url
+            var URL = document.URL,
+                base = URL.substr(0, URL.lastIndexOf('/'));
+
+            seajs.config({
+                alias:{
+                    //  ,'main': base + "/dist/main"
+                }
+                // ,preload:["jquery", "underscore","qplus","codemirror"]
+                //,preload:["jquery", "underscore","qplus","codemirror","main"]
+
+                /*(if target dist)*/
+                ,debug: 1
+                /*<!(endif)*/
+
+                /*(if target dist)
+                 ,debug: 0
+                 <!(endif)*/
+
+            });
+
+            seajs.modify('jquery', function (require, exports, module) {
+                module.exports = jQuery;
+            });
+
+            seajs.use(["./js/main"]);
         </script>
+
+
+
     </body>
 </html>

@@ -1,4 +1,7 @@
-(function() {
+define(function(require) {
+    var cloth = require('./operation/cloth');
+    var gender = require('./operation/gender');
+    var shoot = require('./operation/shoot');
 
     var canvasSource = $('#compare')[0];
     var contextSource = canvasSource.getContext('2d');
@@ -7,26 +10,6 @@
     var contextBlended = canvasBlended.getContext('2d');
 
     var lastImageData;
-
-    document.addEventListener("facetrackingEvent", function( event ) {
-
-        blend();
-        checkAreas();
-
-    });
-
-
-    window.requestAnimFrame = (function(){
-        return  window.requestAnimationFrame       ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame    ||
-            window.oRequestAnimationFrame      ||
-            window.msRequestAnimationFrame     ||
-            function( callback ){
-                window.setTimeout(callback, 1000 / 60);
-            };
-    })();
-
 
     // @See http://www.adobe.com/devnet/html5/articles/javascript-motion-detection.html
     function blend() {
@@ -84,28 +67,30 @@
     }
 
     var opAreaMap = {
-        "shoot" : [448, 32, 100, 100],  //left, top, width, height
-        "gender" : [901, 32, 100, 100],
-        "pre" : [442, 434, 80, 80],
-        "next" : [920, 434, 80, 80],
-        "c1" : [950, 152, 63, 63],
-        "c2" : [950, 220, 63, 63],
-        "c3" : [950, 286, 63, 63],
-        "c4" : [950, 351, 63, 63] // 286 + 65
+        "shoot" : [448, 32, 100, 100, 0],  //left, top, width, height, pre op time
+        "gender" : [901, 32, 100, 100, 0],
+        "pre" : [442, 434, 80, 80, 0],
+        "next" : [920, 434, 80, 80, 0],
+        "c1" : [950, 152, 63, 63, 0],
+        "c2" : [950, 220, 63, 63, 0],
+        "c3" : [950, 286, 63, 63, 0],
+        "c4" : [950, 351, 63, 63, 0] // 286 + 65
     };
 
     var opArray = Object.keys(opAreaMap);
+    function getCurrentTime(){
+        return +new Date;
+    }
 
     function checkAreas() {
         // loop over the note areas
 
         opArray.forEach(function(op){
 
-
             var opArea = opAreaMap[op];
 
             var blendedData = contextBlended.getImageData(opArea[0] , opArea[1], opArea[2], opArea[3]); //left, top, width, height
-            console.log(contextBlended, blendedData);
+
             var i = 0;
             var average = 0;
             // loop over the pixels
@@ -116,8 +101,25 @@
             }
             // calculate an average between of the color values of the note area
             average = Math.round(average / (blendedData.data.length * 0.25));
-            if (average > 10) {
+
+            // by timer set, do not set by pre operation
+            if (average > 10 && (getCurrentTime() - opArea[4]) > 1500 )  {
+
                 console.log("op success:", op);
+                if(op.charAt(0) == 'c'){
+                    cloth.set(op);
+                }
+
+                if("gender" == op){
+                    gender.change();
+                }
+
+                if("shoot" == op){
+                    shoot.shoot();
+                }
+
+                opArea[4] = getCurrentTime();
+
                 // over a small limit, consider that a movement is detected
                 // play a note and show a visual feedback to the user
 //                playSound(notes[r]);
@@ -132,4 +134,11 @@
     }
 
 
-})();
+    return {
+        monitor: function(){
+            blend();
+            checkAreas();
+        }
+    }
+
+});
