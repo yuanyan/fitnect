@@ -85,6 +85,8 @@ define(function(require) {
     function checkAreas() {
         // loop over the note areas
 
+        var counter = 0, curOp;
+
         opArray.forEach(function(op){
 
             var opArea = opAreaMap[op];
@@ -105,31 +107,28 @@ define(function(require) {
             // by timer set, do not set by pre operation
             if (average > 10 && (getCurrentTime() - opArea[4]) > 1500 )  {
 
-                console.log("op success:", op);
-                if(op.charAt(0) == 'c'){
-                    cloth.set(op);
-                }
-
-                if("gender" == op){
-                    gender.change();
-                }
-
-                if("shoot" == op){
-                    shoot.shoot();
-                }
-
+                counter++;
+                curOp = op;
                 opArea[4] = getCurrentTime();
-
-                // over a small limit, consider that a movement is detected
-                // play a note and show a visual feedback to the user
-//                playSound(notes[r]);
-//                if(!notes[r].visual.is(':animated')) {
-//                    notes[r].visual.css({opacity:1});
-//                    notes[r].visual.animate({opacity:0}, 700);
-//                }
 
             }
         });
+
+        if(curOp && counter == 1){
+
+            console.log("op success:", curOp);
+
+            if(curOp.charAt(0) == 'c'){
+                cloth.set(curOp);
+            }else if("gender" == curOp){
+                gender.change();
+            }else if("shoot" == curOp){
+                shoot.shoot();
+            }
+
+            curOp = null;
+        }
+
 
     }
 

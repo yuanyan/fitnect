@@ -141,7 +141,10 @@ headtrackr.Tracker = function(params) {
 		videoElement = video;
 		canvasElement = canvas;
 		canvasContext = canvas.getContext("2d");
-		
+
+        canvasContext.scale(-1,1);
+        canvasContext.translate(-canvas.width,0);
+
 		// resize video when it is playing
 		video.addEventListener('playing', function() {
 

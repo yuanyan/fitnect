@@ -9,7 +9,7 @@ define(function(require) {
     var videoInput = document.getElementById('vid');
     var canvasInput = document.getElementById('compare');
     var canvasOverlay = document.getElementById('overlay');
-    var debugOverlay = document.getElementById('debug');
+
 
     var overlayContext = canvasOverlay.getContext('2d');
 
@@ -17,26 +17,14 @@ define(function(require) {
     canvasOverlay.style.top = '0px';
     canvasOverlay.style.zIndex = '1';
     canvasOverlay.style.display = 'block';
-    debugOverlay.style.position = "absolute";
-    debugOverlay.style.top = '0px';
-    debugOverlay.style.zIndex = '2';
-    debugOverlay.style.display = 'none';
 
-    // add some custom messaging
+//    var debugOverlay = document.getElementById('debug');
+//    debugOverlay.style.position = "absolute";
+//    debugOverlay.style.top = '0px';
+//    debugOverlay.style.zIndex = '2';
+//    debugOverlay.style.display = 'none';
 
-    var statusMessages = {
-        "whitebalance" : "checking for stability of camera whitebalance",
-        "detecting" : "Detecting face",
-        "hints" : "Hmm. Detecting the face is taking a long time",
-        "redetecting" : "Lost track of face, redetecting",
-        "lost" : "Lost track of face",
-        "found" : "Tracking face"
-    };
 
-    var supportMessages = {
-        "no getUserMedia" : "Unfortunately, <a href='http://dev.w3.org/2011/webrtc/editor/getusermedia.html'>getUserMedia</a> is not supported in your browser. Try <a href='http://www.opera.com/browser/'>downloading Opera 12</a> or <a href='http://caniuse.com/stream'>another browser that supports getUserMedia</a>. Now using fallback video for bodydetection.",
-        "no camera" : "No camera found. Using fallback video for bodydetection."
-    };
 
 //    document.addEventListener("headtrackrStatus", function(event) {
 //        if (event.status in supportMessages) {
@@ -54,11 +42,12 @@ define(function(require) {
     // the face tracking setup
 
     var htracker = new headtrackr.Tracker({
-        // altVideo : {mp4 : "./media/demo.mp4"},
+        altVideo : {mp4 : "./media/demo.mp4"},
         calcAngles : true,
         ui : false,
-        headPosition : true,
-        debug : debugOverlay});
+        headPosition : true
+        //,debug : debugOverlay
+    });
 
     htracker.init(videoInput, canvasInput);
     htracker.start();
@@ -77,8 +66,8 @@ define(function(require) {
         cloth.setClothDisplay(1);
     };
 
-    var xOffsetCloth = -212,
-        yOffsetCloth = 40;
+    var xOffsetCloth = -100,
+        yOffsetCloth = 44;
 
     function getZoomedSize(img, multiple){
         // console.dir(img);
@@ -103,6 +92,22 @@ define(function(require) {
 //
 //    var opArray = Object.keys(opAreaMap);
 
+
+    // add some custom messaging
+
+//    var statusMessages = {
+//        "whitebalance" : "checking for stability of camera whitebalance",
+//        "detecting" : "Detecting face",
+//        "hints" : "Hmm. Detecting the face is taking a long time",
+//        "redetecting" : "Lost track of face, redetecting",
+//        "lost" : "Lost track of face",
+//        "found" : "Tracking face"
+//    };
+//
+//    var supportMessages = {
+//        "no getUserMedia" : "Unfortunately, <a href='http://dev.w3.org/2011/webrtc/editor/getusermedia.html'>getUserMedia</a> is not supported in your browser. Try <a href='http://www.opera.com/browser/'>downloading Opera 12</a> or <a href='http://caniuse.com/stream'>another browser that supports getUserMedia</a>. Now using fallback video for bodydetection.",
+//        "no camera" : "No camera found. Using fallback video for bodydetection."
+//    };
 
     var isSidebarShow = false;
     document.addEventListener("facetrackingEvent", function( event ) {
