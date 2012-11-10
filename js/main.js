@@ -54,7 +54,7 @@ define(function(require) {
     // the face tracking setup
 
     var htracker = new headtrackr.Tracker({
-        altVideo : {mp4 : "./media/demo.mp4"},
+        // altVideo : {mp4 : "./media/demo.mp4"},
         calcAngles : true,
         ui : false,
         headPosition : true,
