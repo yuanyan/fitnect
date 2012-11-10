@@ -119,7 +119,13 @@ headtrackr.Tracker = function(params) {
 			// set up stream
 			navigator.getUserMedia(videoSelector, function( stream ) {
 				headtrackerStatus("camera found");
-				video.src = window.URL.createObjectURL(stream);
+
+                if(window.webkitURL.createObjectURL)
+                    video.src = window.webkitURL.createObjectURL(stream);
+                else{
+                    video.src = window.URL.createObjectURL(stream);
+                }
+
 				video.play();
 			}, function() {
 				headtrackerStatus("no camera");
