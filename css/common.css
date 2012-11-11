@@ -42,8 +42,12 @@ table {
 	border-spacing: 0;
 }
 /* common */
+body {
+    background: url(../img/bg.png) repeat;
+}
 .wrap {
 	position: relative;
+    margin: 0 auto;
 	width: 1440px;
 	height: 900px;
 	overflow: hidden;
@@ -195,7 +199,7 @@ table {
 }
 .tools .fav li {
 	float: left;
-	margin: 20px 22px 0;
+	margin: 20px 18px 0;
 }
 .tools .fav li .box {
 	position: relative;
@@ -429,14 +433,21 @@ table {
 	position: absolute;
 	z-index: 101;
 	top: 0;
-	left: 100px;
-	width: 600px;
-	height: 600px;
-	background: #fff;
+	left: 0;
+    right: 0;
+    margin: auto;
+	width: 612px;
+	height: 900px;
+	background: rgba(255,255,255,0.5);
 }
 .flash.show {
 	opacity: 0;
 	-webkit-transition-timing-function: linear;
 	-webkit-transition-property: opacity;
-	-webkit-transition-duration: 0.3s;
+	-webkit-transition-duration: 0.15s;
+}
+
+
+.option .btn-pre.active, .option .btn-next.active {
+    background-color: rgba(0,61,255,0.5);
 }

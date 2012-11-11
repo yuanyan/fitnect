@@ -1,15 +1,23 @@
 define(function(require) {
+
+    var debug = false;
+    var zoom = 1.1;
+    if(location.hash){
+        debug = true;
+        zoom = parseFloat(location.hash.slice(1));
+    }
+
     var operation = require('./operation');
     var cloth = require('./operation/cloth');
     var gender = require('./operation/gender');
     var shoot = require('./operation/shoot');
     var sidebar = require('./sidebar');
+    var voice = require('./voice');
 
     // put all your jQuery goodness in here.
     var videoInput = document.getElementById('vid');
     var canvasInput = document.getElementById('compare');
     var canvasOverlay = document.getElementById('overlay');
-
 
     var overlayContext = canvasOverlay.getContext('2d');
 
@@ -23,7 +31,6 @@ define(function(require) {
 //    debugOverlay.style.top = '0px';
 //    debugOverlay.style.zIndex = '2';
 //    debugOverlay.style.display = 'none';
-
 
 
 //    document.addEventListener("headtrackrStatus", function(event) {
@@ -53,20 +60,25 @@ define(function(require) {
     htracker.start();
 
     // for each facetracking event received draw rectangle around tracked face on canvas
+    cloth.img = new Image();
 
-    var clothImg = new Image();
     var zoomedClothSize = {
         width: 0,
         height: 0
     };
 
-    clothImg.src="./media/c1.png";
-    clothImg.onload = function(){
-        zoomedClothSize = getZoomedSize(clothImg, 0.9);
-        cloth.setClothDisplay(1);
-    };
+    function clothSelect(){
+        cloth.img.src=  "./cloth/c6.png";
+        cloth.img.onload = function(){
+            zoomedClothSize = getZoomedSize(cloth.img, zoom);
+            cloth.setClothDisplay(1);
+        };
 
-    var xOffsetCloth = -100,
+    }
+
+    clothSelect();
+
+    var xOffsetCloth = -120,
         yOffsetCloth = 44;
 
     function getZoomedSize(img, multiple){
@@ -114,6 +126,7 @@ define(function(require) {
 
         if(!isSidebarShow){
             sidebar.show();
+            voice.init();
             isSidebarShow = true;
         }
 
@@ -122,12 +135,15 @@ define(function(require) {
         // once we have stable tracking, draw rectangle
         if (event.detection == "CS") {
 
-//            overlayContext.translate(event.x, event.y);
-//            overlayContext.rotate(event.angle-(Math.PI/2));
-//            overlayContext.strokeStyle = "#00CC00";
-//            overlayContext.strokeRect( (-(event.width/2)) >> 0 ,  (-(event.height/2)) >> 0, event.width, event.height);
-//            overlayContext.rotate((Math.PI/2)-event.angle);
-//            overlayContext.translate( -event.x, -event.y );
+            if( debug ){
+                overlayContext.translate(event.x, event.y);
+                overlayContext.rotate(event.angle-(Math.PI/2));
+                overlayContext.strokeStyle = "#00CC00";
+                overlayContext.strokeRect( (-(event.width/2)) >> 0 ,  (-(event.height/2)) >> 0, event.width, event.height);
+                overlayContext.rotate((Math.PI/2)-event.angle);
+                overlayContext.translate( -event.x, -event.y );
+            }
+
 
 //            opArray.forEach(function(op){
 //
@@ -137,7 +153,8 @@ define(function(require) {
 //            });
 
             // draw cloth on overlay
-            overlayContext.drawImage(clothImg, event.x + xOffsetCloth, event.y + yOffsetCloth , zoomedClothSize['width'], zoomedClothSize['height']);
+
+            overlayContext.drawImage(cloth.img, event.x + xOffsetCloth, event.y + yOffsetCloth , zoomedClothSize['width'], zoomedClothSize['height']);
 
             operation.monitor();
 

@@ -28,19 +28,6 @@ define(function () {
         return ;
     }
 
-    //闪屏
-    var flashFn = function(callback){
-        var flashEle = document.querySelector('.flash');
-        flashEle.style.display = 'block';
-        setTimeout(function(){
-            addClass(flashEle, 'show');
-        }, 0);
-        flashEle.addEventListener('webkitTransitionEnd', function(){
-            flashEle.style.display = 'none';
-            removeClass(flashEle, 'show');
-            callback && callback();
-        });
-    };
 
     //飞过去
     var flyFn = function(insetFn, endFn){

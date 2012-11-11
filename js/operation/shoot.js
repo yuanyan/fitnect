@@ -43,12 +43,48 @@ define(function () {
         return imgUrl;
     }
 
+
+    var hasClass = function (el, className) {
+            if (!el || !className) {
+                return false;
+            }
+            return -1 < (' ' + el.className + ' ').indexOf(' ' + className + ' ');
+        },
+        addClass = function (el, className) {
+            if (!el || !className || hasClass(el, className)) {
+                return;
+            }
+            el.className += ' ' + className;
+        },
+        removeClass = function (el, className) {
+            if (!el || !className || !hasClass(el, className)) {
+                return;
+            }
+            el.className = el.className.replace(new RegExp('(?:^|\\s)' + className + '(?:\\s|$)'), ' ');
+        };
+
+    //闪屏
+    var flashFn = function(callback){
+        var flashEle = document.querySelector('.flash');
+        flashEle.style.display = 'block';
+        setTimeout(function(){
+            addClass(flashEle, 'show');
+        }, 0);
+        flashEle.addEventListener('webkitTransitionEnd', function(){
+            flashEle.style.display = 'none';
+            removeClass(flashEle, 'show');
+            callback && callback();
+        });
+    };
+
+
     function shoot(){
         var imgUrl = takeScreenshot();
 
         var el = "<li><div class='box'> <img height='226px' width='154px' src='"+imgUrl+"'> <div class='fn'> <span class='icon-like'>0</span></div></div></li>"
         $("ul.fav li:first").after(el);
 
+        flashFn();
 
     }
 

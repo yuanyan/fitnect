@@ -2,6 +2,7 @@ define(function(require) {
     var cloth = require('./operation/cloth');
     var gender = require('./operation/gender');
     var shoot = require('./operation/shoot');
+    var voice = require('./voice');
 
     var canvasSource = $('#compare')[0];
     var contextSource = canvasSource.getContext('2d');
@@ -82,6 +83,15 @@ define(function(require) {
         return +new Date;
     }
 
+    var clothImg = {
+    };
+
+    for(var i=0; i< 8; i++){
+        clothImg["c"+i] = new Image();
+        clothImg["c"+i].src =  "./cloth/c"+i+".png";
+    }
+
+
     function checkAreas() {
         // loop over the note areas
 
@@ -119,12 +129,38 @@ define(function(require) {
             console.log("op success:", curOp);
 
             if(curOp.charAt(0) == 'c'){
+
+                cloth.img = clothImg[curOp];
+
                 cloth.set(curOp);
+
             }else if("gender" == curOp){
                 gender.change();
             }else if("shoot" == curOp){
                 shoot.shoot();
+            }else if("pre" == curOp){
+                voice.Page(-1);
+            }else if("next" == curOp){
+                voice.Page(1);
             }
+
+            if(curOp.charAt(0) == 'c'){
+                $("#cloth-select .active").removeClass("active");
+                $("#"+curOp).addClass('active');
+
+            }else{
+                $("#"+curOp).addClass('active');
+
+                var r = (function(curOp){
+                    return function(){
+                        $("#"+curOp).removeClass("active")
+                    }
+                })(curOp);
+
+                setTimeout( r, 500)
+            }
+
+
 
             curOp = null;
         }

@@ -38,6 +38,8 @@ define(function () {
     }
 
     function set(op){
+
+
         setClothDisplay(op.charAt(1));
     }
 
